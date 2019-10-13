@@ -71,7 +71,7 @@ public class AutoClicker {
 		if(moveType == MoveType.REPEATOVERAREA) {
 //			System.out.println("repeat");
 //			store the initial cursor position
-			Point mouseCoords = MouseInfo.getPointerInfo().getLocation();
+			Point mouseCoords = tryGetMouseLocation();
 			x.init = (int)mouseCoords.getX();
 			y.init = (int)mouseCoords.getY();
 //			determines the retrace value for flow mode.
@@ -99,14 +99,23 @@ public class AutoClicker {
 	}
 	
 	// execute auto click using various callbacks.
+//	public void autoClick(Callback clickCallback, BooleanCallback durationCallback, Callback mouseMoveCallback) {
+//		clickCallback.callback();
+//		if (durationCallback.callback()) {
+//			mouseMoveCallback.callback();
+//			autoClick(clickCallback, durationCallback, mouseMoveCallback);
+//		} else {
+//			end("Terminated");
+//		}
+//	}
+	
+	// execute auto click using various callbacks.
 	public void autoClick(Callback clickCallback, BooleanCallback durationCallback, Callback mouseMoveCallback) {
-		clickCallback.callback();
-		if (durationCallback.callback()) {
+		while(durationCallback.callback()) {
+			clickCallback.callback();
 			mouseMoveCallback.callback();
-			autoClick(clickCallback, durationCallback, mouseMoveCallback);
-		} else {
-			end("Terminated");
 		}
+		end("Terminated");
 	}
 //	*-*-*-*-*-*-*-*-*-Callback types-*-*-*-*-*-*-*-*-*-*
 //	--Types of functions used to construct larger functions, such as autoclick--
@@ -148,22 +157,25 @@ public class AutoClicker {
 		}
 	}
 	
+//	private void moveMouseExact(int xDestination, int yDestination) {
+//		moveMouse();
+//		Point mouseCoords = tryGetMouseLocation();
+//		if(mouseCoords.x != xDestination || mouseCoords.y != yDestination) {
+//			moveMouseExact(xDestination, yDestination);
+//		}
+//	}
+	
 	private void moveMouseExact(int xDestination, int yDestination) {
-		try {
-			robot.mouseMove(xDestination, yDestination);
-			Point mouseCoords = MouseInfo.getPointerInfo().getLocation();
-			if(mouseCoords.x != xDestination || mouseCoords.y != yDestination) {
-				moveMouseExact(xDestination, yDestination);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			moveMouseExact(xDestination, yDestination);
+		Point mouseCoords = tryGetMouseLocation();
+		while(mouseCoords.x != xDestination || mouseCoords.y != yDestination) {
+			moveMouse(xDestination, yDestination);
+			mouseCoords = tryGetMouseLocation();
 		}
 	}
 	
 //	move the mouse over an applied area.
 	private void moveMouseOverArea(acceptsTwoIntCallback moveMouseCallback) {
-		Point mouseCoords = MouseInfo.getPointerInfo().getLocation();
+		Point mouseCoords = tryGetMouseLocation();
 		int xDestination = 0;
 		int yDestination = 0;
 		if(_xRepeatCurrent < xRepeat) {
@@ -283,6 +295,18 @@ public class AutoClicker {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private Point tryGetMouseLocation() {
+		Point mouseCoords = null;
+		while(mouseCoords == null) {
+			try {
+				mouseCoords = MouseInfo.getPointerInfo().getLocation();
+			} catch (Exception e) {
+				e.printStackTrace();
+			} 
+		}
+		return mouseCoords;
 	}
 	
 	private void end(String message) {
