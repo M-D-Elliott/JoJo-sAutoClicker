@@ -11,7 +11,7 @@ import Utils.StringUtils;
 public class IntegerFilterMinMax extends DocumentFilter {
 	private int minValue;
 	private int maxValue;
-	private int minLength;
+//	private int minLength;
 	private int maxLength;
 	
 	public IntegerFilterMinMax(int minValue, int maxValue) {
@@ -20,11 +20,11 @@ public class IntegerFilterMinMax extends DocumentFilter {
 		if(maxValue < minValue) {
 			maxValue = minValue;
 		}
-		if(minValue == 0) {
-			this.minLength = minValue;
-		} else {
-			this.minLength = IntUtils.length(minValue);
-		}
+//		if(minValue == 0) {
+//			this.minLength = minValue;
+//		} else {
+//			this.minLength = IntUtils.length(minValue);
+//		}
 		this.maxLength = IntUtils.length(maxValue);
 	}
 

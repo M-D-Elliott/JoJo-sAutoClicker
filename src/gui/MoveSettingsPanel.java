@@ -13,7 +13,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
@@ -40,10 +39,10 @@ public class MoveSettingsPanel extends JPanel {
 	private JCheckBox exactMoveCheck;
 	private JLabel exactMoveLabel;
 	
-	private JRadioButton repeatOverAreaRadio;
-	private JLabel repeatOverAreaLabel;
-	private JRadioButton noMoveRadio;
-	private JLabel noMoveLabel;
+//	private JRadioButton repeatOverAreaRadio;
+//	private JLabel repeatOverAreaLabel;
+//	private JRadioButton noMoveRadio;
+//	private JLabel noMoveLabel;
 	
 //	Limits to above fields.
 	private static int _repeatMinValue = 0;
@@ -90,11 +89,11 @@ public class MoveSettingsPanel extends JPanel {
 		exactMoveCheck.setSelected(exactMoveInit);
 		exactMoveLabel = new JLabel("Exact move: ");
 		exactMoveLabel.setLabelFor(exactMoveCheck);
-		
-		repeatOverAreaRadio = new JRadioButton();
-		repeatOverAreaLabel = new JLabel();
-		noMoveRadio = new JRadioButton();
-		noMoveLabel = new JLabel();
+//		
+//		repeatOverAreaRadio = new JRadioButton();
+//		repeatOverAreaLabel = new JLabel();
+//		noMoveRadio = new JRadioButton();
+//		noMoveLabel = new JLabel();
 		
 		exactMoveCheck.addActionListener(new ActionListener() {
 
