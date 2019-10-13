@@ -2,7 +2,7 @@
   <dontWrapJar>false</dontWrapJar>
   <headerType>gui</headerType>
   <jar>D:\javaRepos\jojosAutoClicker\JoJo&apos;sAutoclicker.jar</jar>
-  <outfile>D:\javaRepos\jojosAutoClicker\JoJo&apos;sAutoclicker.exe</outfile>
+  <outfile>D:\javaRepos\jojosAutoClicker\jojoAutoClicker.exe</outfile>
   <errTitle></errTitle>
   <cmdLine></cmdLine>
   <chdir></chdir>
