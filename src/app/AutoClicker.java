@@ -50,7 +50,7 @@ public class AutoClicker {
 //	if this is on, the mouse move function will loop until its position matches the prescribed position exactly.
 	private boolean _exactMove = true;
 //	determines the number of additional threads to run an auto clicker on.
-	private int addThreads = 0;
+	private int addClickThreads = 0;
 	
 	
 //	constructor
@@ -104,6 +104,8 @@ public class AutoClicker {
 		if (durationCallback.callback()) {
 			mouseMoveCallback.callback();
 			autoClick(clickCallback, durationCallback, mouseMoveCallback);
+		} else {
+			end("Terminated");
 		}
 	}
 //	*-*-*-*-*-*-*-*-*-Callback types-*-*-*-*-*-*-*-*-*-*
@@ -149,11 +151,12 @@ public class AutoClicker {
 	private void moveMouseExact(int xDestination, int yDestination) {
 		try {
 			robot.mouseMove(xDestination, yDestination);
+			Point mouseCoords = MouseInfo.getPointerInfo().getLocation();
+			if(mouseCoords.x != xDestination || mouseCoords.y != yDestination) {
+				moveMouseExact(xDestination, yDestination);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
-		Point mouseCoords = MouseInfo.getPointerInfo().getLocation();
-		if(mouseCoords.x != xDestination || mouseCoords.y != yDestination) {
 			moveMouseExact(xDestination, yDestination);
 		}
 	}
@@ -254,15 +257,16 @@ public class AutoClicker {
 		return (()->emptyCallback());
 	}
 	
-	private void sleep() {
-		try {
-			Thread.sleep(sleep);
-		} catch (Exception e) {
-			e.printStackTrace();
+	private void startAdditionalAutoClickThreads(Callback clickCallback, BooleanCallback durationCallback) {
+		if(addClickThreads > 0) {
+			Callback moveCallback = (() ->emptyCallback());
+			Callback staticAutoClickCallback = (() -> autoClick(clickCallback, durationCallback, moveCallback));
+//			add x threads.
+			startAdditionalThreads(staticAutoClickCallback, addClickThreads);
 		}
 	}
 	
-	private void startAdditionalThreads(Callback callback) {
+	private void startAdditionalThreads(Callback callback, int addThreads) {
 		for (int i = 0;i < addThreads; i++) {
 		    Thread thread = new Thread() {
 			    public void run() {
@@ -273,11 +277,16 @@ public class AutoClicker {
 		}
 	}
 	
-	private void startAdditionalAutoClickThreads(Callback clickCallback, BooleanCallback durationCallback) {
-		Callback moveCallback = (() ->emptyCallback());
-		Callback staticAutoClickCallback = (() -> autoClick(clickCallback, durationCallback, moveCallback));
-//		if the addThreads value is greater then zero, add x threads.
-		startAdditionalThreads(staticAutoClickCallback);
+	private void sleep() {
+		try {
+			Thread.sleep(sleep);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void end(String message) {
+		System.out.println(message);
 	}
 	
 //	*-*-*-*-*-*-*-*-*-Getters and Setters-*-*-*-*-*-*-*-*-*-*

@@ -15,7 +15,7 @@
   <icon>D:\javaRepos\jojosAutoClicker\src\gui\img\jojo6.ico</icon>
   <jre>
     <path></path>
-    <minVersion>1.4.0</minVersion>
+    <minVersion>1.4.4</minVersion>
     <maxVersion></maxVersion>
     <jdkPreference>preferJre</jdkPreference>
   </jre>

@@ -56,7 +56,7 @@ public class MainFrame extends JFrame {
 
 			@Override
 			public void startEventOccurred(int sleep) {
-				System.out.println("start");
+//				System.out.println("start");
 				if(!isRunning) {
 					isRunning = true;
 					autoClicker.setSleep(sleep);
@@ -68,20 +68,20 @@ public class MainFrame extends JFrame {
 
 			@Override
 			public void endEventOccurred() {
-				System.out.println("end");
+//				System.out.println("end");
 				autoClicker.set_continue(false);
 			}
 
 			@Override
 			public void iconSwitchEventOccured() {
-				System.out.println("icon");
+//				System.out.println("icon");
 				getIcon();
 				
 			}
 
 			@Override
 			public void ctrlEventOccurred() {
-				System.out.println("ctrl");
+//				System.out.println("ctrl");
 			}
 		});
 		
