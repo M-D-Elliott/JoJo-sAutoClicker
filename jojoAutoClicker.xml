@@ -12,7 +12,7 @@
   <customProcName>false</customProcName>
   <stayAlive>false</stayAlive>
   <manifest></manifest>
-  <icon>D:\javaRepos\jojosAutoClicker\src\gui\img\jojo6.ico</icon>
+  <icon>D:\javaRepos\jojosAutoClicker\jojo6.ico</icon>
   <jre>
     <path></path>
     <minVersion>1.4.4</minVersion>

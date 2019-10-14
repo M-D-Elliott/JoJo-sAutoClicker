@@ -103,16 +103,13 @@ public class ControlsPanel extends JPanel implements NativeKeyListener {
 		boolean ctrlKeyIsPressed = (e.getModifiers() & NativeKeyEvent.CTRL_MASK) > 0;
 		if(ctrlKeyIsPressed) {
 			if (e.getKeyCode() == NativeKeyEvent.VC_F2) {
-				Thread thread = new Thread() {
-					public void run() {
-						controlsListener.startEventOccurred(200);
-					}
-				};
-			    thread.start();
+				controlsListener.startEventOccurred(200);
 			} else if (e.getKeyCode() == NativeKeyEvent.VC_F3) {
 				controlsListener.endEventOccurred();
 			} else if (e.getKeyCode() == NativeKeyEvent.VC_F) {
 				controlsListener.iconSwitchEventOccured();
+			} else if (e.getKeyCode() == NativeKeyEvent.VC_A) {
+				controlsListener.moveTypeSwitchEventOccured();
 			}
 		}
 		if(e.getKeyCode() == NativeKeyEvent.VC_ESCAPE) {

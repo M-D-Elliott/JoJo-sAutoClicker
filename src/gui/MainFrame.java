@@ -56,19 +56,22 @@ public class MainFrame extends JFrame {
 
 			@Override
 			public void startEventOccurred(int sleep) {
-//				System.out.println("start");
 				if(!isRunning) {
 					isRunning = true;
 					autoClicker.setSleep(sleep);
 					autoClicker.set_settings(settingsPanel.getEvent());
-					autoClicker.start();
-					isRunning = false;
+					Thread thread = new Thread() {
+						public void run() {
+							autoClicker.start();
+							isRunning = false;
+						}
+					};
+				    thread.start();
 				}
 			}
 
 			@Override
 			public void endEventOccurred() {
-//				System.out.println("end");
 				autoClicker.set_continue(false);
 			}
 
@@ -82,6 +85,12 @@ public class MainFrame extends JFrame {
 			@Override
 			public void ctrlEventOccurred() {
 //				System.out.println("ctrl");
+			}
+
+			@Override
+			public void moveTypeSwitchEventOccured() {
+				endEventOccurred();
+				settingsPanel.getMoveSettingsPanel().toggleMoveType();
 			}
 		});
 		

@@ -10,14 +10,18 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
 import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
+import Utils.GroupButtonUtils;
 import Utils.IntUtils;
+import app.MoveType;
 import extensions.JIntegerFieldMinMax;
 
 public class MoveSettingsPanel extends JPanel {
@@ -39,10 +43,11 @@ public class MoveSettingsPanel extends JPanel {
 	private JCheckBox exactMoveCheck;
 	private JLabel exactMoveLabel;
 	
-//	private JRadioButton repeatOverAreaRadio;
-//	private JLabel repeatOverAreaLabel;
-//	private JRadioButton noMoveRadio;
-//	private JLabel noMoveLabel;
+	private JRadioButton noMoveRadio;
+	private String noMoveText = "None";
+	private JRadioButton repeatOverAreaRadio;
+	private String repeatOverAreaText = "Repeat Over Area";
+	private ButtonGroup moveGroup;
 	
 //	Limits to above fields.
 	private static int _repeatMinValue = 0;
@@ -89,11 +94,16 @@ public class MoveSettingsPanel extends JPanel {
 		exactMoveCheck.setSelected(exactMoveInit);
 		exactMoveLabel = new JLabel("Exact move: ");
 		exactMoveLabel.setLabelFor(exactMoveCheck);
-//		
-//		repeatOverAreaRadio = new JRadioButton();
-//		repeatOverAreaLabel = new JLabel();
-//		noMoveRadio = new JRadioButton();
-//		noMoveLabel = new JLabel();
+		
+		noMoveRadio = new JRadioButton(noMoveText);
+		repeatOverAreaRadio = new JRadioButton(repeatOverAreaText);
+		
+		moveGroup = new ButtonGroup();
+		
+		moveGroup.add(noMoveRadio);
+		moveGroup.add(repeatOverAreaRadio);
+		
+		noMoveRadio.setSelected(true);
 		
 		exactMoveCheck.addActionListener(new ActionListener() {
 
@@ -126,10 +136,20 @@ public class MoveSettingsPanel extends JPanel {
 		gc.anchor = GridBagConstraints.LINE_START;
 		gc.insets = new Insets(0, 8, 0, 0);
 		
-		// ////////// First row ///////////////////////////////////
-		gc.gridx = 0;
 		gc.gridy = 0;
+		
+		// ////////// Row ///////////////////////////////////
+		gc.gridx = 0;
 
+		add(noMoveRadio, gc);
+
+		gc.gridx++;
+		add(repeatOverAreaRadio, gc);
+		
+		// ////////// Row ///////////////////////////////////
+		gc.gridy++;
+		
+		gc.gridx = 0;
 		add(xRepeatLabel, gc);
 
 		gc.gridx++;
@@ -141,9 +161,8 @@ public class MoveSettingsPanel extends JPanel {
 		gc.gridx++;
 		add(xDensityField, gc);
 
-		// //////////second row ///////////////////////////////////
+		// //////////Row ///////////////////////////////////
 		gc.gridy++;
-		
 		
 		gc.gridx = 0;
 		add(yRepeatLabel, gc);
@@ -157,7 +176,7 @@ public class MoveSettingsPanel extends JPanel {
 		gc.gridx++;
 		add(yDensityField, gc);
 		
-		// //////////third row ///////////////////////////////////
+		// //////////Row ///////////////////////////////////
 		
 		gc.gridy++;
 		
@@ -174,6 +193,25 @@ public class MoveSettingsPanel extends JPanel {
 		add(flowCheck, gc);
 	}
 	
+	public void toggleMoveType() {
+		String text = GroupButtonUtils.getSelectedButtonText(moveGroup);
+		if(text == noMoveText) {
+			repeatOverAreaRadio.setSelected(true);
+		} else if (text == repeatOverAreaText) {
+			noMoveRadio.setSelected(true);
+		}
+	}
+	
+	public MoveType getMoveType() {
+		String text = GroupButtonUtils.getSelectedButtonText(moveGroup);
+		if (text == repeatOverAreaText) {
+			return MoveType.REPEATOVERAREA;
+		} else {
+			return MoveType.NONE;
+		}
+	}
+	
+//	getters and setters for private fields
 	public JTextField getxDensityField() {
 		return xDensityField;
 	}

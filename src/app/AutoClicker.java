@@ -42,7 +42,7 @@ public class AutoClicker {
 	private MoveType moveType = MoveType.NONE;
 	
 //	a variable to allow user to interrupt loop when true.
-	private boolean _continue = true;
+	private boolean _continue = false;
 //	a boolean to later calculate if x or y repeat is used.
 	private boolean _flow = true;
 //	a boolean to hold whether infinite clicks mode is active.
@@ -69,7 +69,6 @@ public class AutoClicker {
 		_flow = (_flow && _exactMove);
 		// get some positional data about the mouse if it needs to move. 
 		if(moveType == MoveType.REPEATOVERAREA) {
-//			System.out.println("repeat");
 //			store the initial cursor position
 			Point mouseCoords = tryGetMouseLocation();
 			x.init = (int)mouseCoords.getX();
@@ -115,7 +114,6 @@ public class AutoClicker {
 			clickCallback.callback();
 			mouseMoveCallback.callback();
 		}
-		end("Terminated");
 	}
 //	*-*-*-*-*-*-*-*-*-Callback types-*-*-*-*-*-*-*-*-*-*
 //	--Types of functions used to construct larger functions, such as autoclick--
@@ -307,10 +305,6 @@ public class AutoClicker {
 			} 
 		}
 		return mouseCoords;
-	}
-	
-	private void end(String message) {
-		System.out.println(message);
 	}
 	
 //	*-*-*-*-*-*-*-*-*-Getters and Setters-*-*-*-*-*-*-*-*-*-*

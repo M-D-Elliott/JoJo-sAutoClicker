@@ -60,13 +60,19 @@ public class SettingsPanel extends JPanel {
 		int xRepeat = Integer.parseInt(moveSettingsPanel.getxRepeatField().getText());
 		int xDensity = Integer.parseInt(moveSettingsPanel.getxDensityField().getText());
 		int yDensity = Integer.parseInt(moveSettingsPanel.getyDensityField().getText());
-//		MoveType moveType = clickSettingsPanel.getMoveType();
-		MoveType moveType = MoveType.NONE;
-		if((xRepeat > 0 && xDensity > 0) || (yRepeat > 0 && yDensity > 0)) {
-			moveType = MoveType.REPEATOVERAREA;
-		}
+		MoveType moveType = moveSettingsPanel.getMoveType();
 		boolean isFlow = moveSettingsPanel.getFlowCheck().isSelected();
 		boolean isExactMove = moveSettingsPanel.getExactMoveCheck().isSelected();
 		return new SettingsEvent(this, delay, clicks, isInfiniteClicks, xRepeat, yRepeat, xDensity, yDensity, moveType, isFlow, isExactMove);
 	}
+
+	public MoveSettingsPanel getMoveSettingsPanel() {
+		return moveSettingsPanel;
+	}
+
+	public void setMoveSettingsPanel(MoveSettingsPanel moveSettingsPanel) {
+		this.moveSettingsPanel = moveSettingsPanel;
+	}
+	
+	
 }
