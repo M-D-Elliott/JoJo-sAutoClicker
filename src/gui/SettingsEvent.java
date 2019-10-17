@@ -17,11 +17,11 @@ public class SettingsEvent extends EventObject {
 	private MoveType moveType;
 	private boolean exactMove;
 	private boolean flow;
-
+	private boolean graphics;
 
 
 	public SettingsEvent(Object source, int delay, int clicks, boolean infiniteClicks, int xRepeat, int yRepeat,
-			int xDensity, int yDensity, MoveType moveType, boolean exactMove, boolean flow) {
+			int xDensity, int yDensity, MoveType moveType, boolean exactMove, boolean flow, boolean graphics) {
 		super(source);
 		this.delay = delay;
 		this.clicks = clicks;
@@ -33,6 +33,7 @@ public class SettingsEvent extends EventObject {
 		this.moveType = moveType;
 		this.exactMove = exactMove;
 		this.flow = flow;
+		this.graphics = graphics;
 	}
 
 	public int getDelay() {
@@ -114,5 +115,15 @@ public class SettingsEvent extends EventObject {
 	public void setFlow(boolean flow) {
 		this.flow = flow;
 	}
+
+	public boolean isGraphics() {
+		return graphics;
+	}
+
+	public void setGraphics(boolean graphics) {
+		this.graphics = graphics;
+	}
+	
+	
 	
 }

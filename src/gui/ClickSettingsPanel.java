@@ -32,6 +32,8 @@ public class ClickSettingsPanel extends JPanel {
 	private JLabel infiniteClicksLabel;
 	private JTextField clicksField;
 	private JLabel clicksLabel;
+	private JCheckBox graphicsCheck;
+	private JLabel graphicsLabel;
 	
 //	Limits to above fields.
 	private static int _delayMinValue = 1;
@@ -45,10 +47,11 @@ public class ClickSettingsPanel extends JPanel {
 	private String delayInit = "10";
 	private String clicksInit = "150";
 	private boolean infiniteClicksInit = true;
+	private boolean graphicsInit = false;
 	public ClickSettingsPanel() {
 		super();
 		Dimension dim = getPreferredSize();
-		dim.height = 100;
+		dim.height = 120;
 		setPreferredSize(dim);
 		delayField = new JIntegerFieldMinMax(delayInit, _delayMaxLength, _delayMinValue, _delayMaxValue);
 		delayLabel = new JLabel("Delay (ms): ");
@@ -77,6 +80,13 @@ public class ClickSettingsPanel extends JPanel {
 			}
 			
 		});
+		
+		graphicsCheck = new JCheckBox();
+		graphicsCheck.setSelected(graphicsInit);
+		graphicsLabel = new JLabel("Display Graphics");
+		graphicsLabel.setLabelFor(graphicsCheck);
+		graphicsCheck.setEnabled(graphicsInit);
+		graphicsLabel.setEnabled(graphicsInit);
 
 		TitledBorder innerBorder = BorderFactory.createTitledBorder("Click Settings");
 		innerBorder.setTitleColor(Color.BLUE);
@@ -98,7 +108,7 @@ public class ClickSettingsPanel extends JPanel {
 		gc.anchor = GridBagConstraints.LINE_START;
 		gc.insets = new Insets(0, 8, 0, 0);
 		
-		// ////////// First row ///////////////////////////////////
+		// ////////// row ///////////////////////////////////
 		gc.gridx = 0;
 		gc.gridy = 0;
 		add(delayLabel, gc);
@@ -106,7 +116,7 @@ public class ClickSettingsPanel extends JPanel {
 		gc.gridx++;
 		add(delayField, gc);
 		
-		// //////////second row ///////////////////////////////////
+		// //////////row ///////////////////////////////////
 		
 		gc.gridy++;
 		
@@ -121,6 +131,17 @@ public class ClickSettingsPanel extends JPanel {
 
 		gc.gridx++;
 		add(clicksField, gc);
+		
+		// //////////row ///////////////////////////////////
+		
+		gc.gridy++;
+		
+		gc.gridx = 0;
+		add(graphicsLabel, gc);
+
+		gc.gridx++;
+		add(graphicsCheck, gc);
+		
 	}
 	
 	public JTextField getDelayField() {
@@ -141,4 +162,14 @@ public class ClickSettingsPanel extends JPanel {
 	public void setClicksField(JTextField clicksField) {
 		this.clicksField = clicksField;
 	}
+
+	public JCheckBox getGraphicsCheck() {
+		return graphicsCheck;
+	}
+
+	public void setGraphicsCheck(JCheckBox graphicsCheck) {
+		this.graphicsCheck = graphicsCheck;
+	}
+	
+	
 }

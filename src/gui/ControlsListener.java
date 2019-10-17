@@ -5,7 +5,8 @@ import java.util.EventListener;
 public interface ControlsListener extends EventListener {
 	public void startEventOccurred(int sleep);
 	public void endEventOccurred();
-	public void iconSwitchEventOccured();
-	public void ctrlEventOccurred();
-	public void moveTypeSwitchEventOccured();
+	public void moveTypeToggleEventOccured();
+	public void switchImageEventOccured();
+	public void controlPressEventOccurred();
+	public void controlReleaseEventOccurred();
 }

@@ -1,5 +1,5 @@
 package callbacks;
 
-public interface acceptsTwoIntCallback {
+public interface AcceptsTwoIntCallback {
 	void callback(int firstInt, int secondInt);
 }

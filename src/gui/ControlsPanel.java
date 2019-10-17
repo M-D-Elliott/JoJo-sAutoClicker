@@ -33,6 +33,18 @@ public class ControlsPanel extends JPanel implements NativeKeyListener {
 	private ControlsListener controlsListener;
 	private List<WeightedItem> imagesRepo = new ArrayList<WeightedItem>();
 	
+	private int controlKey = NativeKeyEvent.VC_CONTROL;
+	private int startKey = NativeKeyEvent.VC_F2;
+	private int endKey = NativeKeyEvent.VC_F3;
+	private int toggleMoveTypeKey = NativeKeyEvent.VC_A;
+	private int switchImageKey = NativeKeyEvent.VC_F;
+	
+	private boolean controlKeyActive = false;
+	private boolean startKeyActive = false;
+	private boolean endKeyActive = false;
+	private boolean toggleMoveTypeKeyActive = false;
+	private boolean switchImageKeyActive = false;
+	
 	public ControlsPanel() {
 		Dimension dim = getPreferredSize();
 		dim.height = 80;
@@ -97,30 +109,55 @@ public class ControlsPanel extends JPanel implements NativeKeyListener {
 
 	@Override
 	public void nativeKeyPressed(NativeKeyEvent e) {
-		if(e.getKeyCode() == NativeKeyEvent.VC_CONTROL) {
-			controlsListener.ctrlEventOccurred();
-		}
-		boolean ctrlKeyIsPressed = (e.getModifiers() & NativeKeyEvent.CTRL_MASK) > 0;
-		if(ctrlKeyIsPressed) {
-			if (e.getKeyCode() == NativeKeyEvent.VC_F2) {
-				controlsListener.startEventOccurred(200);
-			} else if (e.getKeyCode() == NativeKeyEvent.VC_F3) {
-				controlsListener.endEventOccurred();
-			} else if (e.getKeyCode() == NativeKeyEvent.VC_F) {
-				controlsListener.iconSwitchEventOccured();
-			} else if (e.getKeyCode() == NativeKeyEvent.VC_A) {
-				controlsListener.moveTypeSwitchEventOccured();
-			}
-		}
-		if(e.getKeyCode() == NativeKeyEvent.VC_ESCAPE) {
+		if(e.getKeyCode() == NativeKeyEvent.VC_ESCAPE && !endKeyActive) {
 			controlsListener.endEventOccurred();
+			endKeyActive = true;
+		}
+		else if(!controlKeyActive) {
+			if(e.getKeyCode() == controlKey) {
+				controlsListener.controlPressEventOccurred();
+				controlKeyActive = true;
+			}
+
+		}
+		else if (controlKeyActive) {
+			if (e.getKeyCode() == startKey && !startKeyActive) {
+				controlsListener.startEventOccurred(200);
+				startKeyActive = true;
+			} else if (e.getKeyCode() == endKey && !endKeyActive) {
+				controlsListener.endEventOccurred();
+				endKeyActive = true;
+			} else if (e.getKeyCode() == switchImageKey && !switchImageKeyActive) {
+				controlsListener.switchImageEventOccured();
+				switchImageKeyActive = true;
+			} else if (e.getKeyCode() == toggleMoveTypeKey && !toggleMoveTypeKeyActive) {
+				controlsListener.moveTypeToggleEventOccured();
+				toggleMoveTypeKeyActive = true;
+			}
 		}
 	}
 
 	@Override
 	public void nativeKeyReleased(NativeKeyEvent e) {
-		// TODO Auto-generated method stub
-		
+ 		if(e.getKeyCode() == NativeKeyEvent.VC_ESCAPE) {
+			endKeyActive = false;
+		}
+ 		else if(e.getKeyCode() == controlKey) {
+			controlsListener.controlReleaseEventOccurred();
+			controlKeyActive = false;
+		}
+		else if(e.getKeyCode() == startKey) {
+			startKeyActive = false;
+		}
+		else if(e.getKeyCode() == endKey) {
+			endKeyActive = false;
+		}
+		else if(e.getKeyCode() == switchImageKey) {
+			switchImageKeyActive = false;
+		}
+		else if(e.getKeyCode() == toggleMoveTypeKey) {
+			toggleMoveTypeKeyActive = false;
+		}
 	}
 
 	@Override
@@ -141,8 +178,8 @@ public class ControlsPanel extends JPanel implements NativeKeyListener {
 		this.imagesRepo.add(new JoJoCharacter("Baron Zepelli", "baron", 0.15));
 		this.imagesRepo.add(new JoJoCharacter("Monkey", "monkey", 0.1));
 		this.imagesRepo.add(new JoJoCharacter("Anne", "anne1", 0.075));
-		this.imagesRepo.add(new JoJoCharacter("Anne", "anne2", 0.01));
-		this.imagesRepo.add(new JoJoCharacter("Anne", "anne3", 0.01));
+		this.imagesRepo.add(new JoJoCharacter("Anne", "anne2", 0.001));
+		this.imagesRepo.add(new JoJoCharacter("Anne", "anne3", 0.001));
 		this.imagesRepo.add(new JoJoCharacter("Von Stroheim", "vonstroheim1", 0.05));
 		this.imagesRepo.add(new JoJoCharacter("Von Stroheim", "vonstroheim2", 0.05));
 		this.imagesRepo.add(new JoJoCharacter("Von Stroheim", "vonstroheim3", 0.07));

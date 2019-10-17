@@ -65,7 +65,7 @@ public class MoveSettingsPanel extends JPanel {
 	public MoveSettingsPanel() {
 		super();
 		Dimension dim = getPreferredSize();
-		dim.height = 100;
+		dim.height = 130;
 		setPreferredSize(dim);
 		xRepeatField = new JIntegerFieldMinMax(repeatInit, _repeatMaxLength, _repeatMinValue, _repeatMaxValue);
 		xRepeatLabel = new JLabel("X Repeat: ");
@@ -95,15 +95,13 @@ public class MoveSettingsPanel extends JPanel {
 		exactMoveLabel = new JLabel("Exact move: ");
 		exactMoveLabel.setLabelFor(exactMoveCheck);
 		
-		noMoveRadio = new JRadioButton(noMoveText);
+		noMoveRadio = new JRadioButton(noMoveText, true);
 		repeatOverAreaRadio = new JRadioButton(repeatOverAreaText);
 		
 		moveGroup = new ButtonGroup();
 		
 		moveGroup.add(noMoveRadio);
 		moveGroup.add(repeatOverAreaRadio);
-		
-		noMoveRadio.setSelected(true);
 		
 		exactMoveCheck.addActionListener(new ActionListener() {
 

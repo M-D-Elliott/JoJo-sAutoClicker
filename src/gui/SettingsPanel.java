@@ -20,7 +20,7 @@ public class SettingsPanel extends JPanel {
 
 	public SettingsPanel() {
 		Dimension dim = getPreferredSize();
-		dim.height = 320;
+		dim.height = 380;
 		setPreferredSize(dim);
 		
 		clickSettingsPanel = new ClickSettingsPanel();
@@ -63,7 +63,8 @@ public class SettingsPanel extends JPanel {
 		MoveType moveType = moveSettingsPanel.getMoveType();
 		boolean isFlow = moveSettingsPanel.getFlowCheck().isSelected();
 		boolean isExactMove = moveSettingsPanel.getExactMoveCheck().isSelected();
-		return new SettingsEvent(this, delay, clicks, isInfiniteClicks, xRepeat, yRepeat, xDensity, yDensity, moveType, isFlow, isExactMove);
+		boolean isGraphics = clickSettingsPanel.getGraphicsCheck().isSelected();
+		return new SettingsEvent(this, delay, clicks, isInfiniteClicks, xRepeat, yRepeat, xDensity, yDensity, moveType, isFlow, isExactMove, isGraphics);
 	}
 
 	public MoveSettingsPanel getMoveSettingsPanel() {

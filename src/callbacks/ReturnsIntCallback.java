@@ -1,5 +1,5 @@
 package callbacks;
 
-public interface IntegerCallback {
+public interface ReturnsIntCallback {
 	int callback();
 }

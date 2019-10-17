@@ -1,6 +1,7 @@
 package gui;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -12,6 +13,7 @@ import org.jnativehook.GlobalScreen;
 import org.jnativehook.NativeHookException;
 
 import app.AutoClicker;
+import app.Test;
 
 public class MainFrame extends JFrame {
 
@@ -22,6 +24,7 @@ public class MainFrame extends JFrame {
 	private SettingsPanel settingsPanel;
 	private ControlsPanel controlsPanel;
 	private AutoClicker autoClicker = new AutoClicker();
+	private Test test;
 	
 	public boolean isRunning = false;
 	
@@ -32,7 +35,7 @@ public class MainFrame extends JFrame {
 		setLayout(new BorderLayout());
 
 		//establishes window size and disables window resizing.
-		Dimension dim = new Dimension(490, 270);
+		Dimension dim = new Dimension(490, 300);
 		setMinimumSize(dim);
 		setSize(dim);
 		setResizable(false);
@@ -50,12 +53,13 @@ public class MainFrame extends JFrame {
 		controlsPanel.fillCharacterRepo();
 	    
 		//gets then sets an icon for this application.
-		this.getIcon();
+		this.setIconImage(getRandomIcon());
 
 		controlsPanel.setControlsListener(new ControlsListener() {
 
 			@Override
 			public void startEventOccurred(int sleep) {
+				System.out.println("start");
 				if(!isRunning) {
 					isRunning = true;
 					autoClicker.setSleep(sleep);
@@ -76,21 +80,30 @@ public class MainFrame extends JFrame {
 			}
 
 			@Override
-			public void iconSwitchEventOccured() {
+			public void switchImageEventOccured() {
 //				System.out.println("icon");
-				getIcon();
+				setIconImage(getRandomIcon());
 				
 			}
 
 			@Override
-			public void ctrlEventOccurred() {
-//				System.out.println("ctrl");
+			public void moveTypeToggleEventOccured() {
+				endEventOccurred();
+				settingsPanel.getMoveSettingsPanel().toggleMoveType();
 			}
 
 			@Override
-			public void moveTypeSwitchEventOccured() {
-				endEventOccurred();
-				settingsPanel.getMoveSettingsPanel().toggleMoveType();
+			public void controlPressEventOccurred() {
+				if(settingsPanel.getEvent().isGraphics()) {
+					test = new Test();
+				}
+			}
+			
+			@Override
+			public void controlReleaseEventOccurred() {
+				if(test != null) {
+					test.hide();
+				}
 			}
 		});
 		
@@ -114,10 +127,10 @@ public class MainFrame extends JFrame {
 		GlobalScreen.addNativeKeyListener(controlsPanel);
 	}
 	
-	private void getIcon() {
+	private Image getRandomIcon() {
 		URL url = getClass().getResource("img/" + controlsPanel.getWeightedRandomCharacter().getImageName() + ".jpg");
 		
 		ImageIcon img = new ImageIcon(url);
-		this.setIconImage(img.getImage());
+		return img.getImage();
 	}
 }
