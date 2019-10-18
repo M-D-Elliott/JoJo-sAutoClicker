@@ -26,7 +26,7 @@ public class JIntegerFieldMinMax extends JTextField {
 	public String validate(String text) {
 		if(StringUtils.empty(text)) {
 			text = Integer.toString(minValue);
-			super.setText(text);
+			setText(text);
 		}
 		return text;
 	}

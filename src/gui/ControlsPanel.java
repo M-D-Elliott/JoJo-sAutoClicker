@@ -7,8 +7,6 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -18,8 +16,6 @@ import javax.swing.border.TitledBorder;
 import org.jnativehook.keyboard.NativeKeyEvent;
 import org.jnativehook.keyboard.NativeKeyListener;
 
-import app.JoJoCharacter;
-import app.WeightedItem;
 import extensions.JGradientButton;
 
 public class ControlsPanel extends JPanel implements NativeKeyListener {
@@ -31,7 +27,6 @@ public class ControlsPanel extends JPanel implements NativeKeyListener {
 	private JGradientButton startButton;
 	private JGradientButton endButton;
 	private ControlsListener controlsListener;
-	private List<WeightedItem> imagesRepo = new ArrayList<WeightedItem>();
 	
 	private int controlKey = NativeKeyEvent.VC_CONTROL;
 	private int startKey = NativeKeyEvent.VC_F2;
@@ -164,51 +159,5 @@ public class ControlsPanel extends JPanel implements NativeKeyListener {
 	public void nativeKeyTyped(NativeKeyEvent e) {
 		// TODO Auto-generated method stub
 		
-	}
-	
-	public void fillCharacterRepo() {
-		this.imagesRepo.add(new JoJoCharacter("Johnathan Joestar", "jojo1", 0.2));
-		this.imagesRepo.add(new JoJoCharacter("Joseph Joestar", "jojo2", 0.2));
-		this.imagesRepo.add(new JoJoCharacter("Jotero Kujo", "jojo3", 0.2));
-		this.imagesRepo.add(new JoJoCharacter("Old Joseph", "jojo4", 0.05));
-		this.imagesRepo.add(new JoJoCharacter("young Johnathan Joestar", "jojo5", 0.05));
-		this.imagesRepo.add(new JoJoCharacter("young Johnathan Joestar", "jojo6", 0.05));
-		this.imagesRepo.add(new JoJoCharacter("Dio Brando", "dio", 0.05));
-		this.imagesRepo.add(new JoJoCharacter("Erina", "erina", 0.1));
-		this.imagesRepo.add(new JoJoCharacter("Baron Zepelli", "baron", 0.15));
-		this.imagesRepo.add(new JoJoCharacter("Monkey", "monkey", 0.1));
-		this.imagesRepo.add(new JoJoCharacter("Anne", "anne1", 0.075));
-		this.imagesRepo.add(new JoJoCharacter("Anne", "anne2", 0.001));
-		this.imagesRepo.add(new JoJoCharacter("Anne", "anne3", 0.001));
-		this.imagesRepo.add(new JoJoCharacter("Von Stroheim", "vonstroheim1", 0.05));
-		this.imagesRepo.add(new JoJoCharacter("Von Stroheim", "vonstroheim2", 0.05));
-		this.imagesRepo.add(new JoJoCharacter("Von Stroheim", "vonstroheim3", 0.07));
-	}
-	
-	public JoJoCharacter getWeightedRandomCharacter() {
-		return (JoJoCharacter) getWeightedRandomItem(this.imagesRepo);
-	}
-	
-	
-	private WeightedItem getWeightedRandomItem(List<WeightedItem> list) {
-		// Compute the total weight of all items together
-		double totalWeight = 0.0d;
-		for (WeightedItem i : list)
-		{
-		    totalWeight += i.getWeight();
-		}
-		// Now choose a random item
-		int randomIndex = -1;
-		double random = Math.random() * totalWeight;
-		for (int i = 0; i < list.size(); ++i)
-		{
-		    random -= list.get(i).getWeight();
-		    if (random <= 0.0d)
-		    {
-		        randomIndex = i;
-		        break;
-		    }
-		}
-		return list.get(randomIndex);
 	}
 }

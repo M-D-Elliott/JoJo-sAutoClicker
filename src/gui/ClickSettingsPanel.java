@@ -74,9 +74,7 @@ public class ClickSettingsPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				boolean enabled = !infiniteClicksCheck.isSelected();
-				clicksField.setEnabled(enabled);
-				clicksLabel.setEnabled(enabled);
+				enableClicksField();
 			}
 			
 		});
@@ -142,6 +140,12 @@ public class ClickSettingsPanel extends JPanel {
 		gc.gridx++;
 		add(graphicsCheck, gc);
 		
+	}
+	
+	public void enableClicksField() {
+		boolean enabled = !infiniteClicksCheck.isSelected();
+		clicksField.setEnabled(enabled);
+		clicksLabel.setEnabled(enabled);
 	}
 	
 	public JTextField getDelayField() {

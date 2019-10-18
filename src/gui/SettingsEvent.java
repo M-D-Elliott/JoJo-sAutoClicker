@@ -1,10 +1,11 @@
 package gui;
 
+import java.io.Serializable;
 import java.util.EventObject;
 
 import app.MoveType;
 
-public class SettingsEvent extends EventObject {
+public class SettingsEvent extends EventObject implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private int delay;

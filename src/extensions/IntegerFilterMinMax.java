@@ -11,7 +11,6 @@ import Utils.StringUtils;
 public class IntegerFilterMinMax extends DocumentFilter {
 	private int minValue;
 	private int maxValue;
-//	private int minLength;
 	private int maxLength;
 	
 	public IntegerFilterMinMax(int minValue, int maxValue) {
@@ -20,11 +19,6 @@ public class IntegerFilterMinMax extends DocumentFilter {
 		if(maxValue < minValue) {
 			maxValue = minValue;
 		}
-//		if(minValue == 0) {
-//			this.minLength = minValue;
-//		} else {
-//			this.minLength = IntUtils.length(minValue);
-//		}
 		this.maxLength = IntUtils.length(maxValue);
 	}
 
@@ -59,11 +53,12 @@ public class IntegerFilterMinMax extends DocumentFilter {
 	   sb.append(doc.getText(0, doc.getLength()));
 	   sb.replace(offset, offset + length, text);
 	   if (test(text) && text != null) {
-		   if(text.length() + doc.getLength() <= maxLength) {
+//		   text.length() + doc.getLength()
+		   if(offset + text.length() - length <= maxLength && length < maxLength) {
 			   super.replace(fb, offset, length, text, attrs);
 		   } else {
 			   int firstDigit = Integer.parseInt(sb.toString().substring(0, 1));
-			   if(firstDigit >= 1 && offset + length >= maxLength) {
+			   if(firstDigit >= 1 && offset + length >= maxLength || text.length() >= maxLength) {
 				   super.replace(fb, 0, doc.getLength(), Integer.toString(maxValue), attrs);
 			   }
 		   }
