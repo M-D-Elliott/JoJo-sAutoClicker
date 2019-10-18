@@ -42,7 +42,7 @@ public class MainFrame extends JFrame {
 		setLayout(new BorderLayout());
 
 		//establishes window size and disables window resizing.
-		Dimension dim = new Dimension(490, 330);
+		Dimension dim = new Dimension(490, 340);
 		setMinimumSize(dim);
 		setSize(dim);
 		setResizable(false);
@@ -56,15 +56,15 @@ public class MainFrame extends JFrame {
 		controlsPanel = new ControlsPanel();
 		add(settingsPanel, BorderLayout.CENTER);
 		add(controlsPanel, BorderLayout.SOUTH);
-		
-//		loads the settings from the settings txt file.
-		settingsPanel.setEvent(settingsPanel.loadSettings());
 	    
 	    // fills the character repo for the getJoJoCharacter() function.
 		fillCharacterRepo();
 	    
 		//gets then sets an icon for this application.
 		this.setIconImage(getRandomIcon());
+		
+//		loads the settings from the settings txt file.
+		settingsPanel.loadSettings();
 		
 		controlsPanel.setControlsListener(new ControlsListener() {
 

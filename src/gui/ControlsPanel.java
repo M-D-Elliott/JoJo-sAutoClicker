@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
@@ -16,6 +17,7 @@ import javax.swing.border.TitledBorder;
 import org.jnativehook.keyboard.NativeKeyEvent;
 import org.jnativehook.keyboard.NativeKeyListener;
 
+import app.BrowserOpener;
 import extensions.JGradientButton;
 
 public class ControlsPanel extends JPanel implements NativeKeyListener {
@@ -39,6 +41,11 @@ public class ControlsPanel extends JPanel implements NativeKeyListener {
 	private boolean endKeyActive = false;
 	private boolean toggleMoveTypeKeyActive = false;
 	private boolean switchImageKeyActive = false;
+	
+//	private variables to set a web link to update the app.
+	private JLabel currentVersionWebLinkLabel = new JLabel();
+	private String currentVersionGitURL = "https://github.com/M-D-Elliott/JoJo-sAutoClicker/blob/master/jojoAutoClicker.exe";
+	private String currentVersionMessage = "Get the current version!";
 	
 	public ControlsPanel() {
 		Dimension dim = getPreferredSize();
@@ -74,6 +81,10 @@ public class ControlsPanel extends JPanel implements NativeKeyListener {
 		Border outerBorder = BorderFactory.createEmptyBorder(5, 5, 5, 5);
 
 		setBorder(BorderFactory.createCompoundBorder(outerBorder, innerBorder));
+		
+//		creates a web link to my github repo for this project
+		BrowserOpener.goWebsite(currentVersionWebLinkLabel, currentVersionGitURL, currentVersionMessage);
+		
 		layoutComponents();
 	}
 	
@@ -96,6 +107,12 @@ public class ControlsPanel extends JPanel implements NativeKeyListener {
 		
 		gc.gridx++;
 		add(endButton, gc);
+		
+		// //////////row ///////////////////////////////////
+		gc.gridx = 0;
+		gc.gridy++;
+		
+		add(currentVersionWebLinkLabel, gc);
 	}
 
 	public void setControlsListener(ControlsListener controlsListener) {

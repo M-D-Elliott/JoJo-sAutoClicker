@@ -38,8 +38,6 @@ public class SettingsPanel extends JPanel {
 		moveSettingsPanel = new MoveSettingsPanel();
 		
 		moveTypeSettingsPanel = new MoveTypeSettingsPanel();
-		
-//		profileSaver = new ObjectSaver();
 
 		layoutComponents();
 	}
@@ -117,8 +115,8 @@ public class SettingsPanel extends JPanel {
             e.printStackTrace();
         }
 	}
-	
-	public SettingsEvent loadSettings() {
+
+	public void loadSettings() {
         SettingsEvent settings = null;
         try
         {
@@ -126,12 +124,13 @@ public class SettingsPanel extends JPanel {
             ObjectInputStream ois = new ObjectInputStream(fis);
             settings = (SettingsEvent)ois.readObject();
             ois.close();
+            setEvent(settings);
         }
         catch (Exception e)
         {
-            e.printStackTrace();
+//            e.printStackTrace();
+        	System.out.println("File not found");
         }
-        return settings;
 	}
 	
 	public String getAbsolutePath() {
