@@ -65,7 +65,7 @@ public class AutoClicker extends PositionsObject {
 		Callback moveMouseTypeCallback = () -> emptyCallback();
 		// get some positional data about the mouse if it needs to move. 
 		ReturnsIntAcceptsObjectCallback retraceCallback = super.getRetraceCallback();
-		if(moveType == MoveType.NONE) {
+		if(moveType == MoveType.NONE || moveType == MoveType.SPECIFYCOORDINATES) {
 			moveMouseCallback = (int x, int y) -> emptyCallback();
 		} else {
 			moveMouseCallback = (_exactMove) 
@@ -79,7 +79,7 @@ public class AutoClicker extends PositionsObject {
 				y.init = y.curr = mouseCoords.y;
 				x.repeatCurrent = 0;
 				y.repeatCurrent = 0;
-			} 
+			}
 		}
 
 //		set the continue to true so the loop will commence.

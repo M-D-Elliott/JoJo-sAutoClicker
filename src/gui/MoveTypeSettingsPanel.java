@@ -71,7 +71,7 @@ public class MoveTypeSettingsPanel extends JTabbedPane {
 		if(currentSelection == repeatOverAreaPanel) {
 			return MoveType.REPEATOVERAREA;
 		} else if(currentSelection == specifyCoordinatesPanel) {
-			return MoveType.NONE;
+			return MoveType.SPECIFYCOORDINATES;
 		}
 		return MoveType.NONE;
 	}

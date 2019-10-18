@@ -37,6 +37,6 @@ public class NonePanel extends JPanel {
 	}
 	
 	public NonePanel() {
-		this("Use no movement");
+		this("Use no movement for best clicks per second");
 	}
 }

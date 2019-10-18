@@ -42,6 +42,8 @@ public class ControlsPanel extends JPanel implements NativeKeyListener {
 	private boolean toggleMoveTypeKeyActive = false;
 	private boolean switchImageKeyActive = false;
 	
+	private JLabel useControlToolTip;
+	
 //	private variables to set a web link to update the app.
 	private JLabel currentVersionWebLinkLabel = new JLabel();
 	private String currentVersionGitURL = "https://github.com/M-D-Elliott/JoJo-sAutoClicker/blob/master/jojoAutoClicker.exe";
@@ -82,6 +84,9 @@ public class ControlsPanel extends JPanel implements NativeKeyListener {
 
 		setBorder(BorderFactory.createCompoundBorder(outerBorder, innerBorder));
 		
+//		adds a little tooltip to advertise the use of control + a
+		useControlToolTip = new JLabel("CTRL + A toggles move type");
+		
 //		creates a web link to my github repo for this project
 		BrowserOpener.goWebsite(currentVersionWebLinkLabel, currentVersionGitURL, currentVersionMessage);
 		
@@ -109,9 +114,12 @@ public class ControlsPanel extends JPanel implements NativeKeyListener {
 		add(endButton, gc);
 		
 		// //////////row ///////////////////////////////////
-		gc.gridx = 0;
 		gc.gridy++;
 		
+		gc.gridx = 0;
+		add(useControlToolTip, gc);
+		
+		gc.gridx++;
 		add(currentVersionWebLinkLabel, gc);
 	}
 
