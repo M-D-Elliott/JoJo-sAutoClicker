@@ -16,8 +16,7 @@ import java.util.Map;
 import javax.swing.JLabel;
 
 public class BrowserOpener {
-    public static void goWebsite(JLabel website, final String url, String text) {
-        website.setText(text);
+    public static void goWebsite(JLabel website, final String url) {
     	website.setForeground(Color.BLUE);
     	Font font = website.getFont();
     	Map<TextAttribute, Object> attributes = new HashMap<>(font.getAttributes());

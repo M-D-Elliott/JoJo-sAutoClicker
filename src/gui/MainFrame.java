@@ -28,7 +28,8 @@ public class MainFrame extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private static String appTitle = "JoJo's AutoClicker";
+//	app's title
+	private static String appTitle = "JoJo's Bizarre AutoClicker";
 	
 //	establishes panels
 	private SettingsPanel settingsPanel;
@@ -78,7 +79,7 @@ public class MainFrame extends JFrame {
 
 			@Override
 			public void startEventOccurred(int sleep) {
-				System.out.println("start");
+//				System.out.println("start");
 				if(!isRunning) {
 					isRunning = true;
 					autoClicker.setSleep(sleep);
@@ -157,7 +158,6 @@ public class MainFrame extends JFrame {
 	
 	public void fillCharacterRepo() {
 		jojoList = new WeightedItem[] {
-//			new JoJoCharacter("test", "avdol", 10),
 			new JoJoCharacter("Anne", "anne1", 0.075),
 			new JoJoCharacter("Anne", "anne2", 0.001),
 			new JoJoCharacter("Anne", "anne3", 0.001),
@@ -172,7 +172,7 @@ public class MainFrame extends JFrame {
 			new JoJoCharacter("Monkey", "monkey", 0.1),
 			new JoJoCharacter("Old Joseph", "jojo4", 0.05),
 			new JoJoCharacter("Speedwagon", "speedwagon", 0.15),
-			new JoJoCharacter("Star Platinum", "avdol", 0.05),
+			new JoJoCharacter("Star Platinum", "starPlatinum", 0.05),
 			new JoJoCharacter("Von Stroheim", "vonstroheim1", 0.05),
 			new JoJoCharacter("Von Stroheim", "vonstroheim2", 0.05),
 			new JoJoCharacter("Von Stroheim", "vonstroheim3", 0.07),
@@ -210,7 +210,7 @@ public class MainFrame extends JFrame {
 	
 	private Image getRandomIcon() {
 		JoJoCharacter jojoCharacter = getWeightedRandomCharacter();
-		URL url = getClass().getResource("/img/" + jojoCharacter + ".jpg");
+		URL url = getClass().getResource("/img/" + jojoCharacter.getImageName() + ".jpg");
 		ImageIcon img = new ImageIcon(url);
 		return img.getImage();
 	}

@@ -1,8 +1,8 @@
 <launch4jConfig>
   <dontWrapJar>false</dontWrapJar>
   <headerType>gui</headerType>
-  <jar>D:\javaRepos\jojosAutoClicker\jojoAutoclicker.jar</jar>
-  <outfile>D:\javaRepos\jojosAutoClicker\jojoAutoClicker.exe</outfile>
+  <jar>D:\javaRepos\jojosAutoClicker\jjbAutoClicker.jar</jar>
+  <outfile>D:\javaRepos\jojosAutoClicker\jjbAutoClicker.exe</outfile>
   <errTitle></errTitle>
   <cmdLine></cmdLine>
   <chdir></chdir>
@@ -15,7 +15,7 @@
   <icon>D:\javaRepos\jojosAutoClicker\jojo6.ico</icon>
   <jre>
     <path></path>
-    <minVersion>1.4.4</minVersion>
+    <minVersion>1.4.0</minVersion>
     <maxVersion></maxVersion>
     <jdkPreference>preferJre</jdkPreference>
   </jre>

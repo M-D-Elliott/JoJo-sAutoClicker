@@ -44,10 +44,7 @@ public class ControlsPanel extends JPanel implements NativeKeyListener {
 	
 	private JLabel useControlToolTip;
 	
-//	private variables to set a web link to update the app.
-	private JLabel currentVersionWebLinkLabel = new JLabel();
-	private String currentVersionGitURL = "https://github.com/M-D-Elliott/jojoAutoClicker/blob/master/jojoAutoClicker.exe";
-	private String currentVersionMessage = "Get the current version!";
+	private JLabel currentVersionWebLinkLabel;
 	
 	public ControlsPanel() {
 		Dimension dim = getPreferredSize();
@@ -88,7 +85,9 @@ public class ControlsPanel extends JPanel implements NativeKeyListener {
 		useControlToolTip = new JLabel("CTRL + A toggles move type");
 		
 //		creates a web link to my github repo for this project
-		BrowserOpener.goWebsite(currentVersionWebLinkLabel, currentVersionGitURL, currentVersionMessage);
+		String currentVersionGitURL ="https://github.com/M-D-Elliott/jojoAutoClicker/blob/master/jojoAutoClicker.exe";
+		currentVersionWebLinkLabel = new JLabel("Get the current version!");
+		BrowserOpener.goWebsite(currentVersionWebLinkLabel, currentVersionGitURL);
 		
 		layoutComponents();
 	}
