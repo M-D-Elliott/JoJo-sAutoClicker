@@ -46,7 +46,7 @@ public class ControlsPanel extends JPanel implements NativeKeyListener {
 	
 //	private variables to set a web link to update the app.
 	private JLabel currentVersionWebLinkLabel = new JLabel();
-	private String currentVersionGitURL = "https://github.com/M-D-Elliott/JoJo-sAutoClicker/blob/master/jojoAutoClicker.exe";
+	private String currentVersionGitURL = "https://github.com/M-D-Elliott/jojoAutoClicker/blob/master/jojoAutoClicker.exe";
 	private String currentVersionMessage = "Get the current version!";
 	
 	public ControlsPanel() {

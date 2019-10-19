@@ -27,17 +27,25 @@ public class MainFrame extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	private static String appTitle = "JoJo's AutoClicker";
+	
+//	establishes panels
 	private SettingsPanel settingsPanel;
 	private ControlsPanel controlsPanel;
 	private AutoClicker autoClicker = new AutoClicker();
+	
+//	establishes list which contains jojocharacter objects for getting a random icon.
 	WeightedItem[] jojoList;
+	
+//	graphical display test class, not used currently
 	private Test test;
 	
 	public boolean isRunning = false;
 	
 	public MainFrame() {
 		//Labels the application.
-		super("Jojo's AutoClicker");
+		super(appTitle);
 		//establishes border layout.
 		setLayout(new BorderLayout());
 
@@ -149,6 +157,7 @@ public class MainFrame extends JFrame {
 	
 	public void fillCharacterRepo() {
 		jojoList = new WeightedItem[] {
+//			new JoJoCharacter("test", "avdol", 10),
 			new JoJoCharacter("Anne", "anne1", 0.075),
 			new JoJoCharacter("Anne", "anne2", 0.001),
 			new JoJoCharacter("Anne", "anne3", 0.001),
@@ -202,7 +211,6 @@ public class MainFrame extends JFrame {
 	private Image getRandomIcon() {
 		JoJoCharacter jojoCharacter = getWeightedRandomCharacter();
 		URL url = getClass().getResource("/img/" + jojoCharacter + ".jpg");
-		
 		ImageIcon img = new ImageIcon(url);
 		return img.getImage();
 	}
