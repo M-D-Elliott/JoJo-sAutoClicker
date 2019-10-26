@@ -19,6 +19,7 @@ import org.jnativehook.keyboard.NativeKeyListener;
 
 import app.BrowserOpener;
 import extensions.JGradientButton;
+import interfaces.ControlsListener;
 
 public class ControlsPanel extends JPanel implements NativeKeyListener {
 	

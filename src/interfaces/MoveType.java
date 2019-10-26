@@ -1,4 +1,4 @@
-package app;
+package interfaces;
 
 public enum MoveType {
 	NONE,

@@ -1,14 +1,16 @@
 package app;
 
+import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Robot;
+import java.awt.Toolkit;
 import java.awt.event.InputEvent;
 
 import callbacks.AcceptsTwoIntCallback;
 import callbacks.BooleanCallback;
 import callbacks.Callback;
 import callbacks.ReturnsIntAcceptsObjectCallback;
-import gui.SettingsEvent;
+import interfaces.MoveType;
 
 public class AutoClicker extends PositionsObject {
 	private Robot robot;
@@ -37,6 +39,8 @@ public class AutoClicker extends PositionsObject {
 	private boolean _exactMove = true;
 //	determines the number of additional threads to run an auto clicker on.
 	private int addClickThreads = 0;
+//	a boolean to determine if mouse moving offscreen should be prevented/protected
+	private boolean preventOffScreen = true;
 	
 	
 //	constructor
@@ -61,27 +65,48 @@ public class AutoClicker extends PositionsObject {
 		_exactMove = (_exactMove && moveType != MoveType.NONE);
 		_flow = (_flow && _exactMove);
 
-		AcceptsTwoIntCallback moveMouseCallback;
-		Callback moveMouseTypeCallback = () -> emptyCallback();
-		// get some positional data about the mouse if it needs to move. 
+//		stores a callback for the retrace function. if the object will move by user input, 
+//		flow can be used so that the object retraces to a relative initial position.
+//		Else retrace goes to initial mouse position, effectively locking the user mouse position.
 		ReturnsIntAcceptsObjectCallback retraceCallback = super.getRetraceCallback();
+		
+//		stores a callback for the base move, be it one-try or exact.
+		AcceptsTwoIntCallback moveMouseCallback;
+		
+//		stores a callback for the movetype, be it none, repeat over area, or specify coordinates;
+		Callback moveMouseTypeCallback = () -> emptyCallback();
 		if(moveType == MoveType.NONE || moveType == MoveType.SPECIFYCOORDINATES) {
 			moveMouseCallback = (int x, int y) -> emptyCallback();
 		} else {
 			moveMouseCallback = (_exactMove) 
 					? (int x, int y) -> moveMouseExact(x, y)
-					: (int x, int y) -> moveMouse(x, y); 
-			if(moveType == MoveType.REPEATOVERAREA) {
-				moveMouseTypeCallback = () -> repeatMouseOverArea(retraceCallback, moveMouseCallback);
+					: (int x, int y) -> moveMouse(x, y);
+					
 			//	store the initial cursor position
-				Point mouseCoords = tryGetMousePosition();
-				x.init = x.curr = mouseCoords.x;
-				y.init = y.curr = mouseCoords.y;
-				x.repeatCurrent = 0;
-				y.repeatCurrent = 0;
+			Point mouseCoords = tryGetMousePosition();
+			x.init = x.curr = mouseCoords.x;
+			y.init = y.curr = mouseCoords.y;
+			x.density = x.density * x.sign;
+			y.density = y.density * y.sign;
+			x.repeatCurrent = 0;
+			y.repeatCurrent = 0;
+			
+//			if the user wishes to prevent off screen movement
+			if(preventOffScreen) {
+				Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+				x.min = y.min = 0;
+				x.max = screenSize.width;
+				y.max = screenSize.height;
+			}
+			
+//			check the move type and set callbacks accordingly.
+			if(moveType == MoveType.REPEATOVERAREA) {
+				moveMouseTypeCallback = 
+						(xyInvert) 
+						? () -> repeatMouseOverAreaInverse(retraceCallback, moveMouseCallback)
+						: () -> repeatMouseOverArea(retraceCallback, moveMouseCallback);
 			}
 		}
-
 //		set the continue to true so the loop will commence.
 		_continue = true;
 		
@@ -101,24 +126,6 @@ public class AutoClicker extends PositionsObject {
 			clickCallback.callback();
 			mouseMoveTypeCallback.callback();
 		}
-	}
-	
-//	private void repeatMouseOverArea(ReturnsIntAcceptsObjectCallback retraceCallback, AcceptsTwoIntCallback moveMouseCallback) {
-//		Point mouseCoords = tryGetMousePosition();
-//		x.curr = mouseCoords.x;
-//		y.curr = mouseCoords.y;
-//		x.init = retraceCallback.callback(x);
-//		y.init = retraceCallback.callback(y);
-//		super.repeatPositionOverArea();
-//		moveMouseCallback.callback(x.curr, y.curr);
-//	}
-//	
-	private void repeatMouseOverArea(ReturnsIntAcceptsObjectCallback retraceCallback, AcceptsTwoIntCallback moveMouseCallback) {
-		Point mouseCoords = tryGetMousePosition();
-		x.curr = mouseCoords.x;
-		y.curr = mouseCoords.y;
-		super.repeatPositionOverArea(retraceCallback);
-		moveMouseCallback.callback(x.curr, y.curr);
 	}
 	
 //	*-*-*-*-*-*-*-*-*-Callback types-*-*-*-*-*-*-*-*-*-*
@@ -163,6 +170,7 @@ public class AutoClicker extends PositionsObject {
 	}
 	
 //	----------Move Type Callbacks-------------
+	
 	private void moveMouse(int xDestination, int yDestination) {
 		try {
 			robot.mouseMove(xDestination, yDestination);
@@ -171,12 +179,37 @@ public class AutoClicker extends PositionsObject {
 		}
 	}
 	
-	private void moveMouseExact(int xDestination, int yDestination) {
+	private boolean moveMouseExact(int xDestination, int yDestination) {
+		return moveMouseExact(xDestination, yDestination, _tries);
+	}
+	
+	private boolean moveMouseExact(int xDestination, int yDestination, byte tries) {
 		Point mouseCoords = tryGetMousePosition();
-		while(mouseCoords.x != xDestination || mouseCoords.y != yDestination) {
+		while((tries > 0)) {
+			if((mouseCoords.x == xDestination && mouseCoords.y == yDestination)) {
+				return true;
+			}
 			moveMouse(xDestination, yDestination);
 			mouseCoords = tryGetMousePosition();
+			tries--;
 		}
+		return false;
+	}
+	
+	private void repeatMouseOverArea(ReturnsIntAcceptsObjectCallback retraceCallback, AcceptsTwoIntCallback moveMouseCallback) {
+		Point mouseCoords = tryGetMousePosition();
+		x.curr = mouseCoords.x;
+		y.curr = mouseCoords.y;
+		super.repeatPositionOverArea(x, y, retraceCallback);
+		moveMouseCallback.callback(x.curr, y.curr);
+	}
+	
+	private void repeatMouseOverAreaInverse(ReturnsIntAcceptsObjectCallback retraceCallback, AcceptsTwoIntCallback moveMouseCallback) {
+		Point mouseCoords = tryGetMousePosition();
+		x.curr = mouseCoords.x;
+		y.curr = mouseCoords.y;
+		super.repeatPositionOverArea(y, x, retraceCallback);
+		moveMouseCallback.callback(x.curr, y.curr);
 	}
 	
 //	-------------Generic Callbacks------------
@@ -269,10 +302,16 @@ public class AutoClicker extends PositionsObject {
 		delay = e.getDelay();
 		totalClicks = e.getClicks();
 		_infiniteClicks = e.isInfiniteClicks();
-		x.repeat = e.getxRepeat();
+		
 		x.density = e.getxDensity();
-		y.repeat = e.getyRepeat();
+		x.repeat = (byte)e.getxRepeat();
+		x.sign = (byte)e.getxSign();
+		
 		y.density = e.getyDensity();
+		y.repeat = (byte)e.getyRepeat();
+		y.sign = (byte)e.getySign();
+		
+		xyInvert = e.isxyInvert();
 		moveType = e.getMoveType();
 		_exactMove =  e.isExactMove();
 		_flow = e.isFlow();

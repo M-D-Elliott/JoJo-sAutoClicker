@@ -13,7 +13,8 @@ import java.nio.file.Paths;
 
 import javax.swing.JPanel;
 
-import app.MoveType;
+import app.SettingsEvent;
+import interfaces.MoveType;
 
 public class SettingsPanel extends JPanel {
 
@@ -75,30 +76,48 @@ public class SettingsPanel extends JPanel {
 		int clicks = Integer.parseInt(clickSettingsPanel.getClicksField().getText());
 		boolean isInfiniteClicks = clickSettingsPanel.getInfiniteClicksCheck().isSelected();
 		MoveType moveType = moveTypeSettingsPanel.getMoveType();
-		int yRepeat = Integer.parseInt(moveTypeSettingsPanel.getRepeatOverAreaPanel().getyRepeatField().getText());
 		int xRepeat = Integer.parseInt(moveTypeSettingsPanel.getRepeatOverAreaPanel().getxRepeatField().getText());
 		int xDensity = Integer.parseInt(moveTypeSettingsPanel.getRepeatOverAreaPanel().getxDensityField().getText());
+		int xSign = (moveTypeSettingsPanel.getRepeatOverAreaPanel().getxSignCheck().isSelected())
+						? -1
+						: 1;;
+		int yRepeat = Integer.parseInt(moveTypeSettingsPanel.getRepeatOverAreaPanel().getyRepeatField().getText());
 		int yDensity = Integer.parseInt(moveTypeSettingsPanel.getRepeatOverAreaPanel().getyDensityField().getText());
+		int ySign = (moveTypeSettingsPanel.getRepeatOverAreaPanel().getySignCheck().isSelected())
+							? -1
+							: 1;
+		boolean xyInvert = moveTypeSettingsPanel.getRepeatOverAreaPanel().getxyInvertCheck().isSelected();
 		boolean isFlow = moveSettingsPanel.getFlowCheck().isSelected();
 		boolean isExactMove = moveSettingsPanel.getExactMoveCheck().isSelected();
 		boolean isGraphics = clickSettingsPanel.getGraphicsCheck().isSelected();
-		return new SettingsEvent(this, delay, clicks, isInfiniteClicks, xRepeat, yRepeat, xDensity, yDensity, moveType, isExactMove, isFlow, isGraphics);
+		return new SettingsEvent(this, delay, clicks, isInfiniteClicks, xRepeat, xDensity, xSign, yRepeat, yDensity, ySign, xyInvert, moveType, isExactMove, isFlow, isGraphics);
 	}
 	
 	public void setEvent(SettingsEvent e) {
+		// sets the values in the click settings panel.
 		clickSettingsPanel.getDelayField().setText(Integer.toString(e.getDelay()));
 		clickSettingsPanel.getClicksField().setText(Integer.toString(e.getClicks()));
 		clickSettingsPanel.getInfiniteClicksCheck().setSelected(e.isInfiniteClicks());
 		clickSettingsPanel.enableClicksField();
+		clickSettingsPanel.getGraphicsCheck().setSelected(e.isGraphics());
+		
+		// sets the values in the move type settings panel.
 		moveTypeSettingsPanel.setMoveType(e.getMoveType());
+		
 		moveTypeSettingsPanel.getRepeatOverAreaPanel().getxRepeatField().setText(Integer.toString(e.getxRepeat()));
 		moveTypeSettingsPanel.getRepeatOverAreaPanel().getxDensityField().setText(Integer.toString(e.getxDensity()));
+		moveTypeSettingsPanel.getRepeatOverAreaPanel().getxSignCheck().setSelected(e.getxSign() == -1);
+		
 		moveTypeSettingsPanel.getRepeatOverAreaPanel().getyRepeatField().setText(Integer.toString(e.getyRepeat()));
 		moveTypeSettingsPanel.getRepeatOverAreaPanel().getyDensityField().setText(Integer.toString(e.getyDensity()));
+		moveTypeSettingsPanel.getRepeatOverAreaPanel().getySignCheck().setSelected(e.getySign() == -1);
+		
+		moveTypeSettingsPanel.getRepeatOverAreaPanel().getxyInvertCheck().setSelected(e.isxyInvert());
+		
+//		sets the values in the base move settings panel.
 		moveSettingsPanel.getFlowCheck().setSelected(e.isFlow());
 		moveSettingsPanel.getExactMoveCheck().setSelected(e.isExactMove());
 		moveSettingsPanel.enableFlowCheck();
-		clickSettingsPanel.getGraphicsCheck().setSelected(e.isGraphics());
 	}
 
 	public void saveSettings(SettingsEvent settings) {

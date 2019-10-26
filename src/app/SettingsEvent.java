@@ -1,9 +1,9 @@
-package gui;
+package app;
 
 import java.io.Serializable;
 import java.util.EventObject;
 
-import app.MoveType;
+import interfaces.MoveType;
 
 public class SettingsEvent extends EventObject implements Serializable {
 
@@ -12,25 +12,31 @@ public class SettingsEvent extends EventObject implements Serializable {
 	private int clicks;
 	private boolean infiniteClicks;
 	private int xRepeat;
-	private int yRepeat;
 	private int xDensity;
+	private int xSign;
+	private int yRepeat;
 	private int yDensity;
+	private int ySign;
+	private boolean xyInvert;
 	private MoveType moveType;
 	private boolean exactMove;
 	private boolean flow;
 	private boolean graphics;
 
-
-	public SettingsEvent(Object source, int delay, int clicks, boolean infiniteClicks, int xRepeat, int yRepeat,
-			int xDensity, int yDensity, MoveType moveType, boolean exactMove, boolean flow, boolean graphics) {
+	public SettingsEvent(Object source, int delay, int clicks, boolean infiniteClicks, int xRepeat, int xDensity,
+			int xSign, int yRepeat, int yDensity, int ySign, boolean xyInvert, MoveType moveType, boolean exactMove, boolean flow,
+			boolean graphics) {
 		super(source);
 		this.delay = delay;
 		this.clicks = clicks;
 		this.infiniteClicks = infiniteClicks;
 		this.xRepeat = xRepeat;
-		this.yRepeat = yRepeat;
 		this.xDensity = xDensity;
+		this.xSign = xSign;
+		this.yRepeat = yRepeat;
 		this.yDensity = yDensity;
+		this.ySign = ySign;
+		this.xyInvert = xyInvert;
 		this.moveType = moveType;
 		this.exactMove = exactMove;
 		this.flow = flow;
@@ -40,7 +46,7 @@ public class SettingsEvent extends EventObject implements Serializable {
 	public int getDelay() {
 		return delay;
 	}
-	
+
 	public int getClicks() {
 		return clicks;
 	}
@@ -53,18 +59,30 @@ public class SettingsEvent extends EventObject implements Serializable {
 		return xRepeat;
 	}
 
-	public int getyRepeat() {
-		return yRepeat;
-	}
-
 	public int getxDensity() {
 		return xDensity;
+	}
+
+	public int getxSign() {
+		return xSign;
+	}
+
+	public int getyRepeat() {
+		return yRepeat;
 	}
 
 	public int getyDensity() {
 		return yDensity;
 	}
-	
+
+	public int getySign() {
+		return ySign;
+	}
+
+	public boolean isxyInvert() {
+		return xyInvert;
+	}
+
 	public MoveType getMoveType() {
 		return moveType;
 	}
@@ -75,6 +93,10 @@ public class SettingsEvent extends EventObject implements Serializable {
 
 	public boolean isFlow() {
 		return flow;
+	}
+
+	public boolean isGraphics() {
+		return graphics;
 	}
 
 	public void setDelay(int delay) {
@@ -93,16 +115,28 @@ public class SettingsEvent extends EventObject implements Serializable {
 		this.xRepeat = xRepeat;
 	}
 
-	public void setyRepeat(int yRepeat) {
-		this.yRepeat = yRepeat;
-	}
-
 	public void setxDensity(int xDensity) {
 		this.xDensity = xDensity;
 	}
 
+	public void setxSign(int xSign) {
+		this.xSign = xSign;
+	}
+
+	public void setyRepeat(int yRepeat) {
+		this.yRepeat = yRepeat;
+	}
+
 	public void setyDensity(int yDensity) {
 		this.yDensity = yDensity;
+	}
+
+	public void setySign(int ySign) {
+		this.ySign = ySign;
+	}
+
+	public void setxyInvert(boolean xyInvert) {
+		this.xyInvert = xyInvert;
 	}
 
 	public void setMoveType(MoveType moveType) {
@@ -117,14 +151,8 @@ public class SettingsEvent extends EventObject implements Serializable {
 		this.flow = flow;
 	}
 
-	public boolean isGraphics() {
-		return graphics;
-	}
-
 	public void setGraphics(boolean graphics) {
 		this.graphics = graphics;
 	}
-	
-	
-	
+
 }

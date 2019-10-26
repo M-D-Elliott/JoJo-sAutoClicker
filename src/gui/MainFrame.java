@@ -20,6 +20,7 @@ import app.AutoClicker;
 import app.JoJoCharacter;
 import app.Test;
 import app.WeightedItem;
+import interfaces.ControlsListener;
 
 public class MainFrame extends JFrame {
 
@@ -49,7 +50,7 @@ public class MainFrame extends JFrame {
 		super(appTitle);
 		//establishes border layout.
 		setLayout(new BorderLayout());
-
+		
 		//establishes window size and disables window resizing.
 		Dimension dim = new Dimension(490, 340);
 		setMinimumSize(dim);

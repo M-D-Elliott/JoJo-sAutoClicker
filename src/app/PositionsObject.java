@@ -8,81 +8,92 @@ import callbacks.ReturnsIntAcceptsObjectCallback;
 public class PositionsObject {
 	protected boolean _flow = true;
 	
-	protected repeatedCoord x = new repeatedCoord();
-	protected repeatedCoord y = new repeatedCoord();
-
+	protected RepeatedCoord x = new RepeatedCoord();
+	protected RepeatedCoord y = new RepeatedCoord();
+	
+	protected boolean xyInvert = false;
+	
+	protected byte _tries = 9;
+	
 	protected void repeatPositionOverArea() {
-		if(x.repeatCurrent < x.repeat) {
-			x.repeatCurrent++;
-			x.curr = x.init + x.density * x.repeatCurrent;
-			y.curr = y.init + y.density * y.repeatCurrent;
-		} else if(y.repeatCurrent < y.repeat) {
-			x.repeatCurrent = 0;
-			y.repeatCurrent++;
-			x.curr = x.init;
-			y.curr = y.init + y.density * y.repeatCurrent;
-		} else {
-			x.repeatCurrent = 0;
-			y.repeatCurrent = 0;
-			x.curr = x.init;
-			y.curr= y.init;
-		}
+		ReturnsIntAcceptsObjectCallback standardRetrace = (Object o) -> { return initRetrace((RepeatedCoord)o); };
+		repeatPositionOverArea(standardRetrace);
 	}
 	
 	protected void repeatPositionOverArea(ReturnsIntAcceptsObjectCallback retraceCallback) {
-		if(x.repeatCurrent < x.repeat) {
-			x.curr += x.density;
-			x.repeatCurrent++;
-		} else if(y.repeatCurrent < y.repeat) {
-			x.curr = retraceCallback.callback(x);
-			y.curr += y.density;
-			x.repeatCurrent = 0;
-			y.repeatCurrent++;
+		repeatPositionOverArea(x, y, retraceCallback);
+	}
+	
+	protected void repeatPositionOverArea(RepeatedCoord rCInner, RepeatedCoord rCOuter, ReturnsIntAcceptsObjectCallback retraceCallback) {
+		if(rCInner.repeatCurrent < rCInner.repeat) {
+			rCInner.curr += rCInner.density;
+			rCInner.repeatCurrent++;
+		} else if(rCOuter.repeatCurrent < rCOuter.repeat) {
+			rCInner.curr = retraceCallback.callback(rCInner);
+			rCOuter.curr += rCOuter.density;
+			rCInner.repeatCurrent = 0;
+			rCOuter.repeatCurrent++;
 		} else {
-			x.curr = retraceCallback.callback(x);
-			y.curr= retraceCallback.callback(y);
-			x.repeatCurrent = 0;
-			y.repeatCurrent = 0;
+			rCInner.curr = retraceCallback.callback(rCInner);
+			rCOuter.curr= retraceCallback.callback(rCOuter);
+			rCInner.repeatCurrent = 0;
+			rCOuter.repeatCurrent = 0;
 		}
 	}
 	
 	protected ReturnsIntAcceptsObjectCallback getRetraceCallback() {
 		if(_flow) {
-			return ((Object o) -> {return flowRetrace((repeatedCoord)o); });
+			return (Object o) -> { return relativeRetrace((RepeatedCoord)o); };
 		}
-		return ((Object o) -> { return standardRetrace((repeatedCoord)o); });
+		return (Object o) -> { return initRetrace((RepeatedCoord)o); };
 	}
 
-	private int flowRetrace(repeatedCoord rC) {
+	private int relativeRetrace(RepeatedCoord rC) {
 		return rC.curr - rC.density * rC.repeatCurrent;
 	}
 	
-	private int standardRetrace(repeatedCoord rC) {
+	private int initRetrace(RepeatedCoord rC) {
 		return rC.init;
 	}
 	
 	protected Point tryGetMousePosition() {
-		Point mouseCoords = null;
-		while(mouseCoords == null) {
+		return tryGetMousePosition(_tries);
+	}
+	
+	protected Point tryGetMousePosition(byte tries) {
+		while(tries > 0) {
 			try {
-				mouseCoords = MouseInfo.getPointerInfo().getLocation();
+				Point mouseCoords = MouseInfo.getPointerInfo().getLocation();
+				return mouseCoords;
 			} catch (Exception e) {
 				e.printStackTrace();
-			} 
+			}
+			tries--;
 		}
-		return mouseCoords;
+		return new Point(0,0);
 	}
 }
 
-class repeatedCoord {
+class RepeatedCoord {
 //	stores the initial value of the coordinate.
-	public int init;
+	protected int init;
+	
 //	stores the current value of the coordinate
-	public int curr;
-//	repeat over distance in pixels on x-axis
-	protected int repeat = 0;
-//	stores the repeat position for x.
-	protected int repeatCurrent = 0;
+	protected int curr;
+	
 //	stores the density of the coordinate.
 	protected int density = 50;
+	
+//	repeat over distance in pixels on x-axis
+	protected byte repeat = 0;
+	
+//	stores the repeat position for x.
+	protected byte repeatCurrent = 0;
+	
+//	stores positive or negative sign of coord
+	protected byte sign = 1;
+	
+//	stores max/min values of coord if needed.
+	protected int min = 0;
+	protected int max = 0;
 }

@@ -6,9 +6,9 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 import Utils.ComponentUtils;
-import app.MoveType;
 import gui.moveTypes.NonePanel;
 import gui.moveTypes.RepeatOverAreaPanel;
+import interfaces.MoveType;
 
 public class MoveTypeSettingsPanel extends JTabbedPane {
 	

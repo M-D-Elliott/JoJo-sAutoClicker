@@ -4,6 +4,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -21,12 +22,21 @@ public class RepeatOverAreaPanel extends JPanel {
 //	fields for this panel
 	private JTextField xDensityField;
 	private JLabel xDensityLabel;
-	private JTextField yDensityField;
-	private JLabel yDensityLabel;
 	private JTextField xRepeatField;
 	private JLabel xRepeatLabel;
+	private JCheckBox xSignCheck;
+//	private JTextField xSignField;
+//	private JLabel xSignLabel;
+	private JTextField yDensityField;
+	private JLabel yDensityLabel;
 	private JTextField yRepeatField;
 	private JLabel yRepeatLabel;
+	private JCheckBox ySignCheck;
+//	private JTextField ySignField;
+//	private JLabel ySignLabel;
+	
+	private JCheckBox xyInvertCheck;
+//	private JLabel xyInvertLabel;
 	
 //	Limits to above fields.
 	private static int _repeatMinValue = 0;
@@ -35,6 +45,11 @@ public class RepeatOverAreaPanel extends JPanel {
 	private static int _densityMinValue = 5;
 	private static int _densityMaxValue = 9999;
 	private static int _densityMaxLength = IntUtils.length(_densityMaxValue);
+//	private static String signInit = "1";
+//	private static int _signMaxLength = 1;
+//	private static int _signMaxValue = 1;
+//	private static int _signMinValue = 0;
+	private boolean invertInit = false;
 	
 //	initial values for fields.
 	private String repeatInit = "1";
@@ -49,6 +64,11 @@ public class RepeatOverAreaPanel extends JPanel {
 		xDensityLabel = new JLabel("X Density (px): ");
 		xDensityLabel.setLabelFor(xDensityField);
 		
+		xSignCheck = new JCheckBox("Neg. X ", invertInit);
+//		xSignField = new JIntegerFieldMinMax(signInit, _signMaxLength, _signMinValue, _signMaxValue);
+//		xSignLabel = new JLabel("Neg. X ");
+//		xSignLabel.setLabelFor(xSignField);
+		
 		yRepeatField = new JIntegerFieldMinMax(repeatInit, _repeatMaxLength, _repeatMinValue, _repeatMaxValue);
 		yRepeatLabel = new JLabel("Y Repeat: ");
 		yRepeatLabel.setLabelFor(yRepeatField);
@@ -56,6 +76,15 @@ public class RepeatOverAreaPanel extends JPanel {
 		yDensityField = new JIntegerFieldMinMax(densityInit, _densityMaxLength, _densityMinValue, _densityMaxValue);
 		yDensityLabel = new JLabel("Y density (px): ");
 		yDensityLabel.setLabelFor(yDensityField);
+		
+		ySignCheck = new JCheckBox("Neg. Y ", invertInit);
+//		ySignField = new JIntegerFieldMinMax(signInit, _signMaxLength, _signMinValue, _signMaxValue);
+//		ySignLabel = new JLabel("Neg. Y ");
+//		ySignLabel.setLabelFor(ySignField);
+		
+		xyInvertCheck = new JCheckBox("invert x/y ", invertInit);
+//		xyInvertLabel = new JLabel();
+//		xyInvertLabel.setLabelFor(xyInvertField);
 		
 		layoutComponents();
 	}
@@ -85,6 +114,9 @@ public class RepeatOverAreaPanel extends JPanel {
 		
 		gc.gridx++;
 		add(xDensityField, gc);
+		
+		gc.gridx++;
+		add(xSignCheck, gc);
 
 		// //////////Row ///////////////////////////////////
 		gc.gridy++;
@@ -100,30 +132,60 @@ public class RepeatOverAreaPanel extends JPanel {
 
 		gc.gridx++;
 		add(yDensityField, gc);
+		
+		gc.gridx++;
+		add(ySignCheck, gc);
+		
+		// //////////Row ///////////////////////////////////
+		gc.gridy++;
+
+		gc.gridx = 0;
+		add(xyInvertCheck, gc);
 	}
 //	getters and setters for private fields
 	public JTextField getxDensityField() {
 		return xDensityField;
 	}
-	public void setxDensityField(JTextField xDensityField) {
-		this.xDensityField = xDensityField;
+	public JTextField getxRepeatField() {
+		return xRepeatField;
 	}
 	public JTextField getyDensityField() {
 		return yDensityField;
 	}
-	public void setyDensityField(JTextField yDensityField) {
-		this.yDensityField = yDensityField;
+	public JTextField getyRepeatField() {
+		return yRepeatField;
 	}
-	public JTextField getxRepeatField() {
-		return xRepeatField;
+	public JCheckBox getxyInvertCheck() {
+		return xyInvertCheck;
+	}
+	public void setxDensityField(JTextField xDensityField) {
+		this.xDensityField = xDensityField;
 	}
 	public void setxRepeatField(JTextField xRepeatField) {
 		this.xRepeatField = xRepeatField;
 	}
-	public JTextField getyRepeatField() {
-		return yRepeatField;
+	public void setyDensityField(JTextField yDensityField) {
+		this.yDensityField = yDensityField;
 	}
 	public void setyRepeatField(JTextField yRepeatField) {
 		this.yRepeatField = yRepeatField;
 	}
+	public void setxyInvertCheck(JCheckBox xyInvertCheck) {
+		this.xyInvertCheck = xyInvertCheck;
+	}
+	public JCheckBox getxSignCheck() {
+		return xSignCheck;
+	}
+	public JCheckBox getySignCheck() {
+		return ySignCheck;
+	}
+	public void setxSignCheck(JCheckBox xSignCheck) {
+		this.xSignCheck = xSignCheck;
+	}
+	public void setySignCheck(JCheckBox ySignCheck) {
+		this.ySignCheck = ySignCheck;
+	}
+
+	
+	
 }
